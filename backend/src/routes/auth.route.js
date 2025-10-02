@@ -1,13 +1,9 @@
 import { Router } from "express";
+import { User } from "../models/user.model.js";
+import { authCallback } from "../controller/auth.controller.js";
 
 const router = Router();
 
-router.get("/auth", (req, res) => {
-  // Logic to get all auth
-});
-
-router.post("/auth", (req, res) => {
-  // Logic to create a new auth
-});
+router.post("/callback", authCallback);
 
 export default router;

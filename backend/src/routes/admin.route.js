@@ -1,10 +1,9 @@
 import { Router } from "express";
+import { getAdmin } from "../controller/admin.controller.js";
 
 const router = Router();
 
-router.get("/users", (req, res) => {
-  // Logic to get all users
-});
+router.get("/", getAdmin);
 
 router.post("/users", (req, res) => {
   // Logic to create a new user
