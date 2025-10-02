@@ -16,6 +16,8 @@ const PORT = process.env.PORT;
 
 app.use(express.json()); // to parse req.body
 
+app.use(clerkMiddleware()); // this will add auth to req obj => req.auth
+
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
