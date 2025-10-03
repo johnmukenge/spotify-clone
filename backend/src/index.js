@@ -15,6 +15,7 @@ import path from "path";
 
 dotenv.config();
 
+const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT;
 
@@ -25,6 +26,8 @@ app.use(
   fileUpload({
     useTempFiles: true,
     tempFileDir: path.join(__dirname, "tmp"),
+    createParentPath: true,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max file size
   })
 );
 
@@ -34,6 +37,12 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songsRoutes);
 app.use("/api/albums", albumsRoutes);
 app.use("/api/stats", statsRoutes);
+
+// error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: process.env.NODE_ENV === "production" ? "Internal server error" : err.message });
+});
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
