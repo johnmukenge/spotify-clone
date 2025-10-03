@@ -11,6 +11,8 @@ import statsRoutes from "./routes/stat.route.js";
 import albumsRoutes from "./routes/album.route.js";
 import { connectDB } from "./lib/db.js";
 
+import path from "path";
+
 dotenv.config();
 
 const app = express();
@@ -19,7 +21,12 @@ const PORT = process.env.PORT;
 app.use(express.json()); // to parse req.body
 
 app.use(clerkMiddleware()); // this will add auth to req obj => req.auth
-app.use(fileUpload());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: path.join(__dirname, "tmp"),
+  })
+);
 
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
